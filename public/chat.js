@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded',async ()=>{
         const token =localStorage.getItem('token');
 
 
-         const usergropus=await axios.get('http://3.88.226.21:2000/usergroups/getdata',{headers:{"Authorization":token}});
+         const usergropus=await axios.get('http://35.153.200.187:2000/usergroups/getdata',{headers:{"Authorization":token}});
          console.log("usergroups" +usergropus);
          for(const value of usergropus.data){
-            const groups=await axios.get(`http://3.88.226.21:2000/group/get/data/${value.groupId}`);
+            const groups=await axios.get(`http://35.153.200.187:2000/group/get/data/${value.groupId}`);
             console.log('group data'+groups.data.data);
             showgroupbutton(groups.data.data);
 
@@ -72,7 +72,7 @@ async function sendMessage(){
         const message=document.getElementById('text').value;
         
         let currentgroup=localStorage.getItem('currentGroup');
-        const response=await axios.post('http://3.88.226.21:2000/user/message',{message:message,group:currentgroup},{headers:{"Authorization":token}})
+        const response=await axios.post('http://35.153.200.187:2000/user/message',{message:message,group:currentgroup},{headers:{"Authorization":token}})
         const room=document.getElementById('room');
         const name=localStorage.getItem('name');
         if(response.data.message==='sucesss'){
@@ -98,7 +98,7 @@ const overlay = document.getElementById('overlay');
 const options=document.getElementById('mySelect');
 
 openButton.addEventListener('click',async () => {
-    const users=await axios.get('http://3.88.226.21:2000/user/get/name');
+    const users=await axios.get('http://35.153.200.187:2000/user/get/name');
     console.log()
     for(const user of users.data.data){
        try{
@@ -169,7 +169,7 @@ else{
         
     
     
-        const arrayofmessages=await axios.get(`http://3.88.226.21:2000/user/get/messages/${currentgroup}?messageId=${messageId}`)
+        const arrayofmessages=await axios.get(`http://35.153.200.187:2000/user/get/messages/${currentgroup}?messageId=${messageId}`)
         
         
         
@@ -194,7 +194,7 @@ else{
         
         for(const element of addmessages){
             try{
-                const username=await axios.get(`http://3.88.226.21:2000/user/get/userData/${element.userId}`)
+                const username=await axios.get(`http://35.153.200.187:2000/user/get/userData/${element.userId}`)
                 console.log(username);
                 const child2=`<p>${username.data.data.name}: ${element.message}</p>`
                 chatWindow.innerHTML+=child2;
@@ -210,10 +210,10 @@ else{
 
          const memberdiv=document.getElementById('members');
          const memberlist=document.getElementById('memberlist');
-        const users=await axios.get(`http://3.88.226.21:2000/usergroups/get/userData/${currentgroup}`);
+        const users=await axios.get(`http://35.153.200.187:2000/usergroups/get/userData/${currentgroup}`);
         console.log('this is members data=='+users.data);
         for(const user of users.data){
-            const u=await axios.get(`http://3.88.226.21:2000/user/get/userData/${user.userId}`);
+            const u=await axios.get(`http://35.153.200.187:2000/user/get/userData/${user.userId}`);
             const child=`<li id="${u.data.data.id}">${u.data.data.name} <button onclick=deleteFromGroup("${u.data.data.id}")>delete</button><button id="${u.data.data.id}"onclick=addToadmin("${u.data.data.id}","${currentgroup}")>Make admin</button></li>`;
             memberlist.innerHTML+=child;
 
@@ -243,12 +243,12 @@ catch(err){console.log(err);}
                 
                 console.log('submit button running');
             
-                const res=await axios.post('http://3.88.226.21:2000/group/post/data',{groupName:name,users:selectedOptions});
+                const res=await axios.post('http://35.153.200.187:2000/group/post/data',{groupName:name,users:selectedOptions});
                 console.log('post is working'+res.data.message);
                 if(res.data.message==='sucess'){
                     showgroupbutton(res.data.groupdata);
                     
-                    await axios.get(`http://3.88.226.21:2000/admin/post/data/${res.data.groupdata.id}`,{headers:{"Authorization":token}});
+                    await axios.get(`http://35.153.200.187:2000/admin/post/data/${res.data.groupdata.id}`,{headers:{"Authorization":token}});
                     
                     
         
@@ -285,7 +285,7 @@ searchButton.addEventListener('click', performSearch);
 
 async function performSearch(){
     try{ const searchTerm=searchInput.value.trim();
-        const res=await axios.get(`http://3.88.226.21:2000/user/search/${searchTerm}`);
+        const res=await axios.get(`http://35.153.200.187:2000/user/search/${searchTerm}`);
         const child =`<p>${res.data.name}</p><button onclick=addUserToGroup("${res.data.id}")>add</button>`;
         searchResults.innerHTML=child;}
         catch(err){
@@ -299,7 +299,7 @@ async function performSearch(){
 }
 async function addUserToGroup(id){
     try{  const groupId=localStorage.getItem('currentGroup');
-    await axios.post('http://3.88.226.21:2000/usergroups/add',{userId:id,groupId:groupId});
+    await axios.post('http://35.153.200.187:2000/usergroups/add',{userId:id,groupId:groupId});
     
 
 }
@@ -317,7 +317,7 @@ async function deleteFromGroup(id){
     //chatWindow.innerHTML+=child;
     console.log('in delete group');
 
-    const res=await axios.get(`http://3.88.226.21:2000/usergroups/delete/${id}`);
+    const res=await axios.get(`http://35.153.200.187:2000/usergroups/delete/${id}`);
     if(res.data.message==='success'){
 
         const html=document.getElementById(id);
@@ -331,7 +331,7 @@ async function deleteFromGroup(id){
 }
 
 async function addToadmin(uid,gid){
-    const res=await axios.post(`http://3.88.226.21:2000/admin/makeadmin`,{userId:uid,groupId:gid});    
+    const res=await axios.post(`http://35.153.200.187:2000/admin/makeadmin`,{userId:uid,groupId:gid});    
     //if(res.data.message==='sucess'){
         //const d=document.getElementById(currentgroup);
         //d.remove();    

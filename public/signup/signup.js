@@ -7,7 +7,7 @@ const phone =document.getElementById('phone');
 
 function addUser(event){
     event.preventDefault();
-   axios.post('http://3.88.226.21:2000/user/signup',{name:name.value,email:email.value,password:password.value,phone:phone.value})
+   axios.post('http://35.153.200.187:2000/user/signup',{name:name.value,email:email.value,password:password.value,phone:phone.value})
    .then((res)=>{
       const para=document.getElementById('para');
       

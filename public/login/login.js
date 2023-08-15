@@ -4,7 +4,7 @@ const password=document.getElementById('password');
 function loginUser(event){
     
     event.preventDefault();
-    axios.post('http://3.88.226.21:2000/user/login',{email:email.value,password:password.value})
+    axios.post('http://35.153.200.187:2000/user/login',{email:email.value,password:password.value})
     .then((res)=>{
         console.log('in event');
         const para=document.getElementById('para');
