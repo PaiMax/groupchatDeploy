@@ -5,6 +5,7 @@ const Message=require('../models/message');
 const sequelize=require('sequelize');
 const { Op } = require('sequelize');
 const User = require('../models/user');
+const s3Service=require('../services/s3services');
 
 exports.addUser=async(req,res,next)=>{
     try{ 
@@ -193,4 +194,17 @@ exports.getUserName=async (req,res,next)=>{
     const user=await User.findOne({where:{name:Searchname}});
     res.send(user);
 
+ }
+ exports.sendMultimedia=async (req,res,next)=>{
+
+    try{
+        console.log('in multimediaaa=========');
+        console.log("filedata==="+req.body.fileData.name);
+        const location=await s3Service.uploadToS3(req.body.fileData.data,req.body.fileData.name);
+        res.send({message:'success',data:location});}
+        catch(err){
+            console.log(err);
+        }
+    
+    
  }

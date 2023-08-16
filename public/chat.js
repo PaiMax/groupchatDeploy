@@ -1,4 +1,8 @@
+
+
 let selectedOptions=[]; 
+
+
 const token =localStorage.getItem('token');
 document.addEventListener('DOMContentLoaded',async ()=>{
     try{
@@ -338,6 +342,54 @@ async function addToadmin(uid,gid){
     //}
 
 }
+
+document.getElementById('shareButton').addEventListener('click',sendMultimedia);
+
+async function sendMultimedia() {
+    console.log('in shareButton');
+    try {
+        const fileInput = document.getElementById('fileInput');
+        const selectedFile = fileInput.files[0];
+        const reader = new FileReader();
+
+        if (selectedFile) {
+            
+            const fileData = await new Promise((resolve, reject) => {
+                reader.onload = (event) => {
+                    const fileData = {
+                        type: selectedFile.type,
+                        size: selectedFile.size,
+                        data: event.target.result,
+                        name: selectedFile.name,
+                    };
+                    resolve(fileData);
+                };
+                reader.readAsDataURL(selectedFile);
+            });
+            console.log(typeof fileData);
+
+            const response = await axios.post('http://35.153.200.187:2000/user/multimedia', {fileData});
+            const name = localStorage.getItem('name');
+
+            if (response.data.message === 'success') {
+                const child = `<p>${name}:<a href="${response.data.data}">Media file</a> </p>`;
+                room.innerHTML += child;
+            }
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 

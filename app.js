@@ -1,4 +1,5 @@
 const express =require('express');
+
 const bodyParser=require('body-parser');
 const sequelize =require('./util/database');
 const user=require('./models/user');
@@ -15,9 +16,13 @@ const adminRoutes=require('./routes/admin');
 const path = require('path');
 
 
+
 app.use(cors({origin:"*"}));
 console.log('hello');
-app.use(bodyParser.json({extended:false}));
+app.use(bodyParser.json({extended:false,limit:'10mb'}));
+
+
+
 
 
 

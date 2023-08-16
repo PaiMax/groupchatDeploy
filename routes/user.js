@@ -17,6 +17,7 @@ router.get('/get/messages/:gid',userController.getMessages);
 router.get('/get/userData/:id',userController.getUser);
 router.get('/get/name',userController.getUserName);
 router.get('/search/:name',userController.searchUser);
+router.post('/multimedia',userController.sendMultimedia);
 
 
 
